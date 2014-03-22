@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
+	<name>Stale Users</name>
+	<author>Brett Profitt</author>
+	<version>0.1</version>
+	<category>tools</category>
+	<description>
+		Periodically delete users that match certain conditions.
+	</description>
+	<website>http://github.com/brettp</website>
+	<copyright>Copyright 2014 Brett Profitt</copyright>
+	<license>GNU Public License version 2</license>
+	<requires>
+		<type>elgg_version</type>
+		<version>1.8</version>
+	</requires>
+</plugin_manifest>
