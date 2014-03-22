@@ -50,7 +50,6 @@ function stale_users_cron() {
 		'limit' => $limit,
 		'wheres' => array(
 			'ue.admin = "no"',
-			'ue.email LIKE "%@hotmail.com" or ue.email LIKE "%@outlook.com"'
 			),
 		'joins' => array("JOIN {$db_prefix}users_entity ue on ue.guid = e.guid"),
 		'offset' => $offset,
@@ -60,6 +59,17 @@ function stale_users_cron() {
 	if (elgg_get_plugin_setting('ignore_banned_users', 'stale_users')) {
 		$options['wheres'][] = "banned = 'no'";
 	}
+
+	$email_domains = elgg_get_plugin_setting('email_domains', 'stale_users');
+
+	if ($email_domains) {
+		$domain_arr = explode(',', $email_domains);
+		$domain_str = implode('|', array_map('trim', $domain_arr));
+		
+		$options['wheres'][] = "ue.email REGEXP '$domain_str'";
+	}
+
+	var_dump($options);
 
 	// time stamps
 	$text_inputs = array(

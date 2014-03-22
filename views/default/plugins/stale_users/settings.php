@@ -29,6 +29,11 @@ if ($settings->ignore_banned_users) {
 
 $banned_users_input = elgg_view('input/checkbox', $options);
 
+$email_domains_input = elgg_view('input/text', array(
+	'name' => 'params[email_domains]',
+	'value' => $settings->email_domains
+));
+
 
 $allowed_periods = array(
 	'minute', 'fiveminute', 'fifteenmin', 'halfhour', 'hourly',
@@ -89,6 +94,15 @@ ___HTML;
 		<?php
 			echo $banned_users_input;
 			echo elgg_echo('stale_users:ignore_banned_user');
+		?>
+	</label>
+</div>
+
+<div>
+	<label>
+		<?php
+			echo elgg_echo('stale_users:email_domains');
+			echo $email_domains_input;
 		?>
 	</label>
 </div>
