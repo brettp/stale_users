@@ -137,9 +137,11 @@ function stale_users_cron() {
 			try {
 				if (!$user->delete()) {
 					$info['delete'] = 'False returned on delete';
+					elgg_set_plugin_setting('offset', ++$offset, 'stale_users');
 				}
 			} catch(Exception $e) {
 				$info['delete'] = $e->getMessage();
+				elgg_set_plugin_setting('offset', ++$offset, 'stale_users');
 			}
 
 			$log = elgg_get_data_path() . 'deleted_users.log';
