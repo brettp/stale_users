@@ -39,8 +39,6 @@ function stale_users_reset_offset($hook, $type, $value, $params) {
 }
 
 function stale_users_cron() {
-//	elgg_set_plugin_setting('offset', 0, 'stale_users');
-//	exit;
 	$db_prefix = elgg_get_config('dbprefix');
 	$limit = elgg_get_plugin_setting('max_users', 'stale_users');
 	$offset = elgg_get_plugin_setting('offset', 'stale_users');
@@ -68,8 +66,6 @@ function stale_users_cron() {
 		
 		$options['wheres'][] = "ue.email REGEXP '$domain_str'";
 	}
-
-	var_dump($options);
 
 	// time stamps
 	$text_inputs = array(
@@ -100,7 +96,8 @@ function stale_users_cron() {
 	foreach ($batch as $user) {
 		$info = array(
 			'guid' => $user->guid,
-			'name' => "$user->name ($user->username)",
+			'username' => $user->username,
+			'name' => "$user->name",
 			'url' => $user->getURL(),
 			'email' => $user->email,
 			'time_created' => date('r', $user->time_created),
@@ -137,14 +134,19 @@ function stale_users_cron() {
 
 		if ($delete) {
 			$info['delete'] = 1;
-			var_dump($info);
-			// delete
-		} else {
-			$info['delete'] = 0;
+			try {
+				if (!$user->delete()) {
+					$info['delete'] = 'False returned on delete';
+				}
+			} catch(Exception $e) {
+				$info['delete'] = $e->getMessage();
+			}
+
+			$log = elgg_get_data_path() . 'deleted_users.log';
+			$data = implode(',', $info) . "\n";
+			file_put_contents($log, $data, FILE_APPEND);
 		}
 	}
-
-	var_dump("Offset: $offset");
 }
 
 
