@@ -39,6 +39,7 @@ function stale_users_reset_offset($hook, $type, $value, $params) {
 }
 
 function stale_users_cron() {
+	$ia = elgg_set_ignore_access(true);
 	$db_prefix = elgg_get_config('dbprefix');
 	$limit = elgg_get_plugin_setting('max_users', 'stale_users');
 	$offset = elgg_get_plugin_setting('offset', 'stale_users');
@@ -149,6 +150,8 @@ function stale_users_cron() {
 			file_put_contents($log, $data, FILE_APPEND);
 		}
 	}
+
+	elgg_set_ignore_access($ia);
 }
 
 
