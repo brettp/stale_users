@@ -153,5 +153,3 @@ function stale_users_cron() {
 
 	elgg_set_ignore_access($ia);
 }
-
-
