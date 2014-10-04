@@ -2,7 +2,7 @@
 /**
  * 	en.php - English language variables
  */
-$english = array(
+return array(
 	'admin:users:stale_users' => "Stale users",
 
 	'stale_users:activate' => 'Stale Users is active, but will not operate until you configure its settings',
@@ -21,5 +21,3 @@ $english = array(
 	'stale_users:metadata' => 'Ignore users who own more than this many metadata entries:',
 
 );
-
-add_translation("en", $english);
